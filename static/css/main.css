@@ -1,0 +1,65 @@
+.test, .dropped { 
+  position: relative; 
+}
+.test:after{
+  font-family: FontAwesome;
+  content: "\f0b2";
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: -20px;
+  top: -25px;
+  cursor: pointer;
+  display: none;
+}
+/*.dropped:after{
+  font-family: FontAwesome;
+  content: "\f0b2";
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: -50px;
+  top: 10px;
+  cursor: pointer;
+} 
+
+.main_canvas .test:after, 
+.dropped:after{
+  display: none; 
+}*/
+
+
+.resizable {
+  position: relative; 
+  border: 1px solid ;
+  padding: 10px;
+}
+
+.resizer {
+  /* All resizers are positioned absolutely inside the element */
+  position: absolute;
+}
+/* Placed at the right side */
+
+.resizer-r {
+  cursor: col-resize;
+  height: 100%;
+  right: 0;
+  top: 0;
+  width: 5px;
+}
+/* Placed at the bottom side */
+
+.resizer-b {
+  bottom: 0;
+  cursor: row-resize;
+  height: 5px;
+  left: 0;
+  width: 100%;
+} 
+/* Custom CSS for grid lines */
+.main_canvas {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px; /* Change this value to adjust the spacing of grid lines */
+}

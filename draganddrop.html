@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+    $(function() {
+  function getBounds(el) {
+    var p = $(el).position();
+    p.right = p.left + $(el).width();
+    p.bottom = p.top + $(el).height();
+    return p;
+  }
+
+  function isOver(a, b) {
+    var ap;
+    console.log(a,b)
+    if (typeof a == "object") {
+      ap = a;
+    } else {
+      ap = getBounds(a);
+    }
+    var bp = getBounds(b);
+    return (ap.left > bp.left && ap.right < bp.right) && (ap.top > bp.top && ap.bottom < bp.bottom);
+  }
+  $(".boxA").draggable({
+    helper: "clone",
+    cursor: "move",
+    appendTo: "body",
+    revert:'invalid',
+    cancel: true,
+  containment: "parent",
+
+  });
+  $("#boxB").droppable({
+    accept: ".boxA",
+    drop: function(event, ui) {
+      var cl = ui.helper.clone();
+      cl.appendTo(this).draggable({
+        helper: "clone",
+    cursor: "move",
+    appendTo: "body",
+    revert:'invalid',
+    // cancel:true,
+  // containment: "parent",
+
+        stop: function(e, ui) {
+          if (isOver($.extend({}, ui.position, {
+              right: ui.position.left + ui.helper.width(),
+              bottom: ui.position.top + ui.helper.height()
+            }), $("#boxB")) == false) {
+            var a = getBounds($("body > .boxA"));
+            ui.helper.animate({
+              top: a.top,
+              left: a.left
+            }, function() {
+              ui.helper.remove();
+            });
+          } else {
+            console.log("Drop Inside");
+          }
+        }
+      });
+      ui.helper.remove();
+    }
+  });
+});
+</script>
+
+<style>
+    #boxB {
+  width: 300px;
+  height: 200px;
+  border: 5px solid black;
+  padding: 50px 50px;
+  margin: auto;
+  text-align: center;
+  background-color: #FFFFFF;
+}
+
+.boxA {
+  width: 100px;
+  /* border: 2px solid black; */
+  text-align: center;
+ 
+  cursor: pointer;
+}
+</style>
+<body>
+<div id="boxB" ></div>
+<br />
+<div class="boxA">
+<input type="text"  placeholder="Drag and Drop" />
+</div>
+</body>
+</html>
